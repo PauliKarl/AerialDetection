@@ -159,10 +159,11 @@ def poly2origpoly(poly, x, y, rate):
 
 def mergesingle(dstpath, nms, nms_thresh, fullname):
     name = util.custombasename(fullname)
-    #print('name:', name)
+    print('name:', name)
+    print(dstpath)
     dstname = os.path.join(dstpath, name + '.txt')
     with open(fullname, 'r') as f_in:
-        # print('fullname: ', fullname)
+        print('fullname: ', fullname)
         nameboxdict = {}
         lines = f_in.readlines()
         splitlines = [x.strip().split(' ') for x in lines]
@@ -170,25 +171,29 @@ def mergesingle(dstpath, nms, nms_thresh, fullname):
             subname = splitline[0]
             splitname = subname.split('__')
             oriname = splitname[0]
-            pattern1 = re.compile(r'__\d+___\d+')
-            #print('subname:', subname)
-            x_y = re.findall(pattern1, subname)
-            x_y_2 = re.findall(r'\d+', x_y[0])
-            x, y = int(x_y_2[0]), int(x_y_2[1])
+            # pattern1 = re.compile(r'__\d+_\d+')
 
-            pattern2 = re.compile(r'__([\d+\.]+)__\d+___')
+            # print('subname:', subname)
+            # x_y = re.findall(pattern1, subname)
 
-            rate = re.findall(pattern2, subname)[0]
+            
+            # x_y_2 = re.findall(r'\d+', x_y[0])
+            # x, y = int(x_y_2[0]), int(x_y_2[1])
 
+            # print(x,y)
+            # pattern2 = re.compile(r'__([\d+\.]+)__\d+___')
+
+            # rate = re.findall(pattern2, subname)[0]
+            rate=1.0
             confidence = splitline[1]
             poly = list(map(float, splitline[2:]))
-            origpoly = poly2origpoly(poly, x, y, rate)
+            origpoly = poly2origpoly(poly, 0, 0, 1.0)#poly2origpoly(poly, x, y, rate)
             det = origpoly
             det.append(confidence)
             det = list(map(float, det))
-            if (oriname not in nameboxdict):
-                nameboxdict[oriname] = []
-            nameboxdict[oriname].append(det)
+            if (subname not in nameboxdict):
+                nameboxdict[subname] = []
+            nameboxdict[subname].append(det)
         nameboxnmsdict = nmsbynamedict(nameboxdict, nms, nms_thresh)
         with open(dstname, 'w') as f_out:
             for imgname in nameboxnmsdict:
@@ -239,6 +244,6 @@ def mergebypoly_multiprocess(srcpath, dstpath, nms_type='py_cpu_nms_poly_fast', 
                            dstpath,
                            obb_hybrid_NMS_partial, h_thresh)
 if __name__ == '__main__':
-    # mergebypoly(r'/home/dingjian/code/DOTA_devkit/Test_nms2/Task1_results', r'/home/dingjian/code/DOTA_devkit/Test_nms2/Task1_results_0.1_nms_fast')
-    mergebyrec(r'/home/dingjian/Documents/Research/experiments/mmdetection_DOTA/scratch_faster_rcnn_r50_fpn_gn_2x_dota2/Task2_results',
-               r'/home/dingjian/Documents/Research/experiments/mmdetection_DOTA/scratch_faster_rcnn_r50_fpn_gn_2x_dota2/Task2_results_nms')
+    mergebypoly(r'/home/pd/AerialDetection/work_dirs/sdc/faster_rcnn_obb_r50_fpn_1x_sdc/Task1_results/person')
+    # mergebyrec(r'/home/dingjian/Documents/Research/experiments/mmdetection_DOTA/scratch_faster_rcnn_r50_fpn_gn_2x_dota2/Task2_results',
+            #    r'/home/dingjian/Documents/Research/experiments/mmdetection_DOTA/scratch_faster_rcnn_r50_fpn_gn_2x_dota2/Task2_results_nms')

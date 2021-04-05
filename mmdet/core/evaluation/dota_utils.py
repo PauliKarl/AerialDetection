@@ -181,6 +181,7 @@ def OBBDetComp4(dataset, results):
     for idx in range(len(dataset)):
         filename = dataset.img_infos[idx]['filename']
         result = results[idx]
+        #print(result)
         for label in range(len(result)):
             rbboxes = result[label]
             # import pdb

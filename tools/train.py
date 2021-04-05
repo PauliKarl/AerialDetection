@@ -10,6 +10,8 @@ from mmdet.apis import (train_detector, init_dist, get_root_logger,
 from mmdet.models import build_detector
 import torch
 
+import warnings
+warnings.simplefilter('error', UserWarning)
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
