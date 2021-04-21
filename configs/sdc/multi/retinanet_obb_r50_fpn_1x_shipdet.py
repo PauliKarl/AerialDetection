@@ -18,7 +18,7 @@ model = dict(
         num_outs=5),
     rbbox_head=dict(
         type='RetinaHeadRbbox',
-        num_classes=2,
+        num_classes=17,
         in_channels=256,
         stacked_convs=4,
         feat_channels=256,
@@ -34,7 +34,7 @@ model = dict(
             use_sigmoid=True,
             gamma=2.0,
             alpha=0.25,
-            loss_weight=1.0),
+            loss_weight=2.0),
         loss_bbox=dict(type='SmoothL1Loss', beta=0.11, loss_weight=1.0)))
 # training and testing settings
 train_cfg = dict(
@@ -56,8 +56,8 @@ test_cfg = dict(
     # max_per_img=1000)
     max_per_img = 2000)
 # dataset settings
-dataset_type = 'CocoDataset'#SDCDataset_MultiDet
-data_root = '/data2/pd/sdc/shipdet/v1/coco/'
+dataset_type = 'SDCDataset_MultiDet'#SDCDataset,SDCDataset_MultiDet
+data_root = '/data2/pd/sdc/multidet/v0/coco/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 data = dict(
@@ -65,7 +65,7 @@ data = dict(
     workers_per_gpu=2,
     train=dict(
         type=dataset_type,
-        ann_file=data_root + 'annotations/shipdet_trainval_v1.json',
+        ann_file=data_root + 'annotations/sdc_trainval_v0.json',
         img_prefix=data_root + 'trainval/',
         img_scale=(1024, 1024),
         img_norm_cfg=img_norm_cfg,
@@ -76,7 +76,7 @@ data = dict(
         with_label=True),
     val=dict(
         type=dataset_type,
-        ann_file=data_root + 'annotations/shipdet_test_v1.json',
+        ann_file=data_root + 'annotations/sdc_test_v0.json',
         img_prefix=data_root + 'test/',
         img_scale=(1024, 1024),
         img_norm_cfg=img_norm_cfg,
@@ -87,7 +87,7 @@ data = dict(
         with_label=True),
     test=dict(
         type=dataset_type,
-        ann_file=data_root + 'annotations/shipdet_test_v1.json',
+        ann_file=data_root + 'annotations/sdc_test_v0.json',
         img_prefix=data_root + 'test/',
         img_scale=(1024, 1024),
         img_norm_cfg=img_norm_cfg,
@@ -98,7 +98,7 @@ data = dict(
         with_label=False,
         test_mode=True))
 # optimizer
-optimizer = dict(type='SGD', lr=0.005, momentum=0.9, weight_decay=0.0001)
+optimizer = dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=0.0001)
 optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
 # learning policy
 lr_config = dict(
@@ -121,7 +121,7 @@ total_epochs = 24
 # device_ids = range(8)
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = '/data2/pd/sdc/shipdet/v1/works_dir/aedet/retinanet_obb_r50_fpn_1x_shipdet'
-load_from = None
+work_dir = '/data2/pd/sdc/multidet/v0/works_dir/aedet/retinanet_obb_r50_fpn_1x_shipdet'
+load_from = None#'/data2/pd/sdc/multidet/v0/works_dir/aedet/retinanet_obb_r50_fpn_1x_shipdet/epoch_12.pth'
 resume_from = None
 workflow = [('train', 1)]

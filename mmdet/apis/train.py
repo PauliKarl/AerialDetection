@@ -141,7 +141,16 @@ def _dist_train(model, dataset, cfg, validate=False):
             dist=True)
     ]
     # put model on gpus
-    model = MMDistributedDataParallel(model.cuda())
+
+    find_unused_parameters = cfg.get('find_unused_parameters', False)
+    # Sets the `find_unused_parameters` parameter in
+    # torch.nn.parallel.DistributedDataParallel
+    model = MMDistributedDataParallel(
+        model.cuda(),
+        device_ids=[torch.cuda.current_device()],
+        broadcast_buffers=False,
+        find_unused_parameters=find_unused_parameters)
+    # model = MMDistributedDataParallel(model.cuda())
     # build runner
     optimizer = build_optimizer(model, cfg.optimizer)
     runner = Runner(model, batch_processor, optimizer, cfg.work_dir,

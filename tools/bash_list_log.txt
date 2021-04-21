@@ -1,8 +1,8 @@
 测试test
 
-CUDA_VISIBLE_DEVICES=1 python tools/test.py configs/sdc/faster_rcnn_obb_r50_fpn_1x_dota1_5.py /data2/pd/sdc/shipdet/v1/works_dir/aedet/faster_rcnn_RoITrans_r50_fpn_1x_shipdet/epoch_12.pth --out /data2/pd/sdc/shipdet/v1/works_dir/aedet/faster_rcnn_RoITrans_r50_fpn_1x_shipdet/results.pkl
+CUDA_VISIBLE_DEVICES=2 python tools/test.py configs/sdc/faster_rcnn_obb_r50_fpn_1x_dota1_5.py /data2/pd/sdc/shipdet/v1/works_dir/aedet/faster_rcnn_RoITrans_r50_fpn_1x_shipdet/epoch_12.pth --out /data2/pd/sdc/shipdet/v1/works_dir/aedet/faster_rcnn_RoITrans_r50_fpn_1x_shipdet/results.pkl
 
 
 阈值NMS
-CUDA_VISIBLE_DEVICES=1 python tools/parse_results.py --config configs/sdc/faster_rcnn_obb_r50_fpn_1x_dota1_5.py --type OBB --pkl work_dirs/sdc/faster_rcnn_obb_r50_fpn_1x_sdc/results.pkl --output work_dirs/sdc/faster_rcnn_obb_r50_fpn_1x_sdc/
+CUDA_VISIBLE_DEVICES=2 python tools/parse_results.py --config configs/sdc/faster_rcnn_obb_r50_fpn_1x_dota1_5.py --type OBB --pkl /data2/pd/sdc/shipdet/v1/works_dir/aedet/faster_rcnn_RoITrans_r50_fpn_1x_shipdet/results.pkl --output /data2/pd/sdc/shipdet/v1/works_dir/aedet/faster_rcnn_RoITrans_r50_fpn_1x_shipdet/
 

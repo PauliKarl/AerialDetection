@@ -67,7 +67,7 @@ def parse_results(config_file, resultfile, dstpath, type):
     if type == 'OBB':
         #  dota1 has tested
         obb_results_dict = OBBDetComp4(dataset, outputs)
-        current_thresh = 0.1
+        current_thresh = 0.5
     elif type == 'HBB':
         # dota1 has tested
         hbb_results_dict = HBBDet2Comp4(dataset, outputs)
